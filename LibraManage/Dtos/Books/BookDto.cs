@@ -1,4 +1,4 @@
-﻿namespace LibraManage.Dtos;
+﻿namespace LibraManage.Dtos.Books;
 
 public class BookDto : BaseDto
 {

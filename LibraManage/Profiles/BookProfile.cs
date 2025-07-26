@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Books;
-using LibraManage.Dtos;
+using LibraManage.Dtos.Books;
 
 namespace LibraManage.Profiles;
 
