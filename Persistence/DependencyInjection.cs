@@ -20,6 +20,8 @@ public static class DependencyInjection
 
                 dbContextOptionsBuilder.UseNpgsql(databaseOptions.ConnectionString, sqlServerAction =>
                 {
+                    sqlServerAction.MigrationsAssembly("LibraManage");
+
                     sqlServerAction.EnableRetryOnFailure(databaseOptions.MaxRetryCount);
 
                     sqlServerAction.CommandTimeout(databaseOptions.CommandTimeout);
