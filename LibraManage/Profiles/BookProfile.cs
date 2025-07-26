@@ -8,6 +8,7 @@ public class BookProfile : Profile
 {
     public BookProfile()
     {
-        CreateMap<Book, BookDto>();
+        CreateMap<Book, BookDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.Value));
     }
 }

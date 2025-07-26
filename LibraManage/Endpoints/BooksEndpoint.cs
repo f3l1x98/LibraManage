@@ -1,5 +1,6 @@
 ﻿using Application.Books.CreateBook;
 using Application.Books.GetBooks;
+using AutoMapper;
 using Carter;
 using LibraManage.Dtos.Books;
 using MediatR;
@@ -16,7 +17,7 @@ public class BooksEndpoint : CarterModule
         group.MapPost("/", CreateBook);
     }
 
-    private async Task<IResult> GetBooks(ISender sender)
+    private async Task<IResult> GetBooks(ISender sender, IMapper mapper)
     {
         var query = new GetBooksQuery();
 
@@ -24,8 +25,7 @@ public class BooksEndpoint : CarterModule
 
         if (result.IsSuccess)
         {
-
-            return TypedResults.Ok(result.Value);
+            return TypedResults.Ok(mapper.Map<List<BookDto>>(result.Value));
         }
         else
         {
@@ -34,7 +34,7 @@ public class BooksEndpoint : CarterModule
         }
     }
 
-    private async Task<IResult> CreateBook(CreateBookRequest request, ISender sender)
+    private async Task<IResult> CreateBook(CreateBookRequest request, ISender sender, IMapper mapper)
     {
         var command = new CreateBookCommand(request.Title, request.Description, request.ISBN);
 
@@ -42,8 +42,7 @@ public class BooksEndpoint : CarterModule
 
         if (result.IsSuccess)
         {
-
-            return TypedResults.Ok(result.Value);
+            return TypedResults.Ok(mapper.Map<BookDto>(result.Value));
         }
         else
         {
