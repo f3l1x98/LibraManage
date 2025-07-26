@@ -4,15 +4,15 @@ using Domain.Primitives;
 namespace Domain.Books;
 public class Book : BaseEntity<BookId>
 {
-    public String Title { get; private set; }
+    public string Title { get; private set; }
 
-    public String Summary { get; private set; }
+    public string Summary { get; private set; }
 
-    public String ISBN { get; private set; }
+    public string ISBN { get; private set; }
 
     // TODO authors, #inLibrary, #loaned, ...
 
-    public static Result<Book> create(String title, String summary, String isbn)
+    public static Result<Book> create(string title, string summary, string isbn)
     {
         var book = new Book()
         {
