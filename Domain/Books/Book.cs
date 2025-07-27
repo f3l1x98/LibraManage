@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Domain.Loans;
 using Domain.Primitives;
+using SharedKernel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Books;
@@ -27,7 +28,7 @@ public class Book : BaseEntity<BookId>
         }
     }
 
-    public static Result<Book> create(string title, string summary, string isbn)
+    public static Result<Book, Error> create(string title, string summary, string isbn)
     {
         var book = new Book()
         {
@@ -37,7 +38,7 @@ public class Book : BaseEntity<BookId>
             ISBN = isbn,
         };
 
-        return Result.Success(book);
+        return Result.Success<Book, Error>(book);
     }
 
     public bool LoanPossible()

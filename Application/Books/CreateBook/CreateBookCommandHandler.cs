@@ -20,10 +20,9 @@ public sealed class CreateBookCommandHandler : ICommandHandler<CreateBookCommand
     async Task<Result<Book, Error>> IRequestHandler<CreateBookCommand, Result<Book, Error>>.Handle(CreateBookCommand request, CancellationToken cancellationToken)
     {
         var createResult = Book.create(request.Title, request.Descritpion, request.ISBN);
-
         if (createResult.IsFailure)
         {
-            return Result.Failure<Book, Error>(new Error("Books.create", "Failed to create Book"));
+            return createResult;
         }
 
         _bookRepository.Add(createResult.Value);

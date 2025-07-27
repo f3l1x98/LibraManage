@@ -27,26 +27,26 @@ public sealed class LoanBookCommandHandler : ICommandHandler<LoanBookCommand, Lo
         var memberResult = await _memberRepository.GetByIdAsync(request.MemberId, cancellationToken);
         if (memberResult.HasNoValue)
         {
-            return Result.Failure<Loan, Error>(new Error("Errors.NotFound", $"No Member found for Id {request.MemberId.Value}"));
+            return Result.Failure<Loan, Error>(MemberErrors.NotFound(request.MemberId));
         }
 
         var bookResult = await _bookRepository.GetByIdAsync(request.BookId, cancellationToken);
         if (bookResult.HasNoValue)
         {
-            return Result.Failure<Loan, Error>(new Error("Errors.NotFound", $"No Book found for Id {request.BookId.Value}"));
+            return Result.Failure<Loan, Error>(BookErrors.NotFound(request.BookId));
         }
 
         Book book = bookResult.Value;
         bool loanPossible = book.LoanPossible();
         if (!loanPossible)
         {
-            return Result.Failure<Loan, Error>(new Error("Books.OutOfCopies", "No copies left to loan"));
+            return Result.Failure<Loan, Error>(BookErrors.NoCopiesLeft(request.BookId));
         }
 
         var loanResult = Loan.create(book, memberResult.Value, request.durationInDays);
         if (loanResult.IsFailure)
         {
-            return Result.Failure<Loan, Error>(new Error("Errors.Book.Loan", $"Failed to loan book with Id {request.BookId.Value}"));
+            return loanResult;
         }
 
         _loanRepository.Add(loanResult.Value);
