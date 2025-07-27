@@ -2,6 +2,7 @@
 using AutoMapper;
 using Carter;
 using LibraManage.Dtos.Members;
+using LibraManage.Extensions;
 using MediatR;
 
 namespace LibraManage.Endpoints;
@@ -21,14 +22,6 @@ public class MembersEndpoint : CarterModule
 
         var result = await sender.Send(command);
 
-        if (result.IsSuccess)
-        {
-            return TypedResults.Ok(mapper.Map<MemberDto>(result.Value));
-        }
-        else
-        {
-            // TODO probably sth better to return
-            return TypedResults.BadRequest(result.Error.description);
-        }
+        return result.IsSuccess ? TypedResults.Ok(mapper.Map<MemberDto>(result.Value)) : result.ToProblemDetails();
     }
 }
