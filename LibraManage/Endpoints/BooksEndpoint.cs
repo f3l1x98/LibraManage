@@ -33,7 +33,7 @@ public class BooksEndpoint : CarterModule
         else
         {
             // TODO probably sth better to return
-            return TypedResults.BadRequest();
+            return TypedResults.BadRequest(result.Error.description);
         }
     }
 
@@ -50,7 +50,7 @@ public class BooksEndpoint : CarterModule
         else
         {
             // TODO probably sth better to return
-            return TypedResults.BadRequest();
+            return TypedResults.BadRequest(result.Error.description);
         }
     }
 
