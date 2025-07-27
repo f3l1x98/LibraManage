@@ -13,11 +13,6 @@ public class Loan : BaseEntity<LoanId>
 
     public static Result<Loan> create(Book book, Member loaner, int durationInDays)
     {
-        var loanResult = book.LoanBook();
-        if (loanResult.IsFailure)
-        {
-            return Result.Failure<Loan>("Loans.OutOfCopies");
-        }
         DateOnly today = DateOnly.FromDateTime(DateTime.Now);
         return new Loan()
         {

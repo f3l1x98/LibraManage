@@ -40,20 +40,8 @@ public class Book : BaseEntity<BookId>
         return Result.Success(book);
     }
 
-
-    internal Result LoanBook()
+    public bool LoanPossible()
     {
-        if (NumberOfCopies == 0)
-        {
-            return Result.Failure("All copies loaned");
-        }
-        NumberOfCopies--;
-        return Result.Success();
-    }
-
-    internal Result ReturnBook()
-    {
-        NumberOfCopies++;
-        return Result.Success();
+        return NumberOfCopies > NumberOfLoanedCopies;
     }
 }

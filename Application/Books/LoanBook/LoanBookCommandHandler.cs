@@ -24,10 +24,6 @@ public sealed class LoanBookCommandHandler : ICommandHandler<LoanBookCommand, Lo
 
     public async Task<Result<Loan, Error>> Handle(LoanBookCommand request, CancellationToken cancellationToken)
     {
-        // TODO
-        //  1. get member
-        //  2. get book
-        //  3. Loan Book
         var memberResult = await _memberRepository.GetByIdAsync(request.MemberId, cancellationToken);
         if (memberResult.HasNoValue)
         {
@@ -41,6 +37,12 @@ public sealed class LoanBookCommandHandler : ICommandHandler<LoanBookCommand, Lo
         }
 
         Book book = bookResult.Value;
+        bool loanPossible = book.LoanPossible();
+        if (!loanPossible)
+        {
+            return Result.Failure<Loan, Error>(new Error("Books.OutOfCopies", "No copies left to loan"));
+        }
+
         var loanResult = Loan.create(book, memberResult.Value, request.durationInDays);
         if (loanResult.IsFailure)
         {
