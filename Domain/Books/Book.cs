@@ -1,5 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
+using Domain.Loans;
 using Domain.Primitives;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Books;
 public class Book : BaseEntity<BookId>
@@ -10,7 +12,20 @@ public class Book : BaseEntity<BookId>
 
     public string ISBN { get; private set; }
 
+    [Range(1, int.MaxValue)]
+    public int NumberOfCopies { get; private set; }
+
     // TODO authors, #inLibrary, #loaned, ...
+
+    public List<Loan> LoanedCopies { get; private set; }
+
+    public int NumberOfLoanedCopies
+    {
+        get
+        {
+            return LoanedCopies?.Count ?? 0;
+        }
+    }
 
     public static Result<Book> create(string title, string summary, string isbn)
     {
@@ -25,5 +40,20 @@ public class Book : BaseEntity<BookId>
         return Result.Success(book);
     }
 
-    // TODO method for loaning and returning (perhaps that should be part of Member?!?!?)
+
+    internal Result LoanBook()
+    {
+        if (NumberOfCopies == 0)
+        {
+            return Result.Failure("All copies loaned");
+        }
+        NumberOfCopies--;
+        return Result.Success();
+    }
+
+    internal Result ReturnBook()
+    {
+        NumberOfCopies++;
+        return Result.Success();
+    }
 }

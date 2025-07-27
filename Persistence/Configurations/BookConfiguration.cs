@@ -25,5 +25,9 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder
             .HasIndex(b => b.ISBN)
             .IsUnique();
+
+        builder.Property(b => b.NumberOfCopies)
+            .IsRequired()
+            .HasDefaultValue(1);
     }
 }

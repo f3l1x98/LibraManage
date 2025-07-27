@@ -1,4 +1,5 @@
-﻿using Domain.Loans;
+﻿using Domain.Books;
+using Domain.Loans;
 using Domain.Members;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,8 +15,14 @@ public class LoanConfiguration : IEntityTypeConfiguration<Loan>
             value => new LoanId(value));
 
         builder
-            .HasOne<Member>(m => m.Loaner)
-            .WithMany(s => s.LoanedBooks)
+            .HasOne<Member>(s => s.Loaner)
+            .WithMany(m => m.LoanedBooks)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasOne<Book>(s => s.LoanedBook)
+            .WithMany(b => b.LoanedCopies)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
     }
