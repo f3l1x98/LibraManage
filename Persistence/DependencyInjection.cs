@@ -1,5 +1,7 @@
 ﻿using Domain;
 using Domain.Books;
+using Domain.Loans;
+using Domain.Members;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -20,6 +22,8 @@ public static class DependencyInjection
 
                 dbContextOptionsBuilder.UseNpgsql(databaseOptions.ConnectionString, sqlServerAction =>
                 {
+                    sqlServerAction.MigrationsAssembly("LibraManage");
+
                     sqlServerAction.EnableRetryOnFailure(databaseOptions.MaxRetryCount);
 
                     sqlServerAction.CommandTimeout(databaseOptions.CommandTimeout);
@@ -33,6 +37,8 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         // TODO repositories
         services.AddScoped<IBookRepository, BookRepository>();
+        services.AddScoped<IMemberRepository, MemberRepository>();
+        services.AddScoped<ILoanRepository, LoanRepository>();
 
         return services;
     }

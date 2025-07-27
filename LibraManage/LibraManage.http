@@ -1,6 +1,41 @@
 @LibraManage_HostAddress = http://localhost:5172
 
-GET {{LibraManage_HostAddress}}/weatherforecast/
+
+### Books
+
+GET {{LibraManage_HostAddress}}/api/v1/books
 Accept: application/json
+
+###
+
+POST {{LibraManage_HostAddress}}/api/v1/books
+Content-Type: application/json
+
+{
+  "title": "My test Book",
+  "description": "This is a test",
+  "isbn": "978-1-45678-123-4"
+}
+
+###
+
+@bookId=43505231-63d3-44fc-b5cf-0de13c2bc372
+POST {{LibraManage_HostAddress}}/api/v1/books/{{bookId}}/loan
+Content-Type: application/json
+
+{
+  "memberId": "7f8ff953-b200-4cca-9e20-e8a280ad77e7"
+}
+
+
+### Members
+
+POST {{LibraManage_HostAddress}}/api/v1/members
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "Test"
+}
 
 ###

@@ -21,7 +21,7 @@ public abstract class Repository<TEntity, TEntityId>
             .AsMaybe();
     }
 
-    public Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+    public virtual Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return _dbContext.Set<TEntity>()
             .ToListAsync(cancellationToken);
