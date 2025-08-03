@@ -7,4 +7,5 @@ public interface ILoanRepository
     Task<Maybe<Loan>> GetByIdAsync(LoanId id, CancellationToken cancellationToken);
 
     void Add(Loan book);
+    void Remove(Loan book);
 }
