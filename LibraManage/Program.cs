@@ -3,6 +3,7 @@ using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using Asp.Versioning.Builder;
 using Carter;
+using LibraManage;
 using LibraManage.Extensions;
 using Persistence;
 using Web.App.Configuration;
@@ -12,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddApplication()
     .AddPersistence();
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddCarter();
 
@@ -57,6 +61,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseExceptionHandler();
 
 ApiVersionSet apiVersionSet = app
     .NewApiVersionSet()

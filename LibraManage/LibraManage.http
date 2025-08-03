@@ -19,13 +19,23 @@ Content-Type: application/json
 
 ###
 
-@bookId=43505231-63d3-44fc-b5cf-0de13c2bc372
-POST {{LibraManage_HostAddress}}/api/v1/books/{{bookId}}/loan
+
+### Loans
+
+POST {{LibraManage_HostAddress}}/api/v1/loans/
 Content-Type: application/json
 
 {
+  "bookId": "43505231-63d3-44fc-b5cf-0de13c2bc372",
   "memberId": "7f8ff953-b200-4cca-9e20-e8a280ad77e7"
 }
+
+###
+
+@loanId=6846d770-a86d-498d-b45c-dd120057018e
+DELETE {{LibraManage_HostAddress}}/api/v1/loans/{{loanId}}
+
+###
 
 
 ### Members
